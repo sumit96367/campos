@@ -6,6 +6,7 @@ import PageTransition from '../components/ui/PageTransition'
 import useCartStore from '../store/cartStore'
 import api from '../services/api'
 import toast from 'react-hot-toast'
+import { mockWines } from '../data/mockWines'
 
 const WineDetailPage = () => {
   const { slug } = useParams()
@@ -20,7 +21,9 @@ const WineDetailPage = () => {
         const { data } = await api.get(`/products/${slug}`)
         setWine(data.product)
       } catch {
-        setWine(null)
+        console.warn('Backend unavailable, falling back to mock data.')
+        const fallbackWine = mockWines.find(w => w.slug === slug)
+        setWine(fallbackWine || null)
       } finally {
         setLoading(false)
       }
@@ -108,12 +111,12 @@ const WineDetailPage = () => {
                 <span className="font-sans text-sm text-charcoal/40">per bottle</span>
               </div>
 
-              {wine.stock > 0 ? (
+              {wine.stock > 0 || wine.inStock !== false ? (
                 <div className="flex gap-4">
                   <div className="flex items-center border border-champagne">
                     <button onClick={() => setQty(q => Math.max(1, q - 1))} className="px-4 py-3 text-charcoal/60 hover:text-gold transition-colors">−</button>
                     <span className="px-4 py-3 font-sans text-sm min-w-[3rem] text-center">{qty}</span>
-                    <button onClick={() => setQty(q => Math.min(wine.stock, q + 1))} className="px-4 py-3 text-charcoal/60 hover:text-gold transition-colors">+</button>
+                    <button onClick={() => setQty(q => Math.min(wine.stock || 10, q + 1))} className="px-4 py-3 text-charcoal/60 hover:text-gold transition-colors">+</button>
                   </div>
                   <button onClick={handleAddToCart} className="btn-primary flex-1">
                     Add to Cart

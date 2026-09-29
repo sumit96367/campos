@@ -6,6 +6,7 @@ import PageTransition from '../components/ui/PageTransition'
 import WineCard from '../components/wine/WineCard'
 import api from '../services/api'
 import { FiFilter, FiX } from 'react-icons/fi'
+import { mockWines } from '../data/mockWines'
 
 const CATEGORIES = ['All', 'Red Wine', 'White Wine', 'Rosé', 'Dessert Wine']
 
@@ -22,7 +23,8 @@ const WinesPage = () => {
         const { data } = await api.get('/products')
         setWines(data.products || [])
       } catch (err) {
-        setError('Could not load wines. Please try again.')
+        console.warn('Backend unavailable, falling back to mock data.', err)
+        setWines(mockWines)
       } finally {
         setLoading(false)
       }
