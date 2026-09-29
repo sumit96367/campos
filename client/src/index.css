@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Pinyon+Script&family=Jost:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: auto; /* Lenis handles smooth scroll */
+  }
+
+  body {
+    @apply bg-cream text-charcoal font-sans;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-gold/20 text-charcoal;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+    line-height: 1.2;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .section-container {
+    @apply max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24;
+  }
+  .section-py {
+    @apply py-20 md:py-28 lg:py-36;
+  }
+
+  /* Typography */
+  .eyebrow {
+    @apply font-sans text-[11px] font-medium tracking-[0.22em] uppercase text-charcoal/50;
+  }
+  .heading-hero {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.8rem, 8vw, 7rem);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  .heading-display {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    line-height: 1.15;
+  }
+  .heading-section {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .body-elegant {
+    @apply font-sans text-base md:text-lg text-charcoal/70 leading-relaxed font-light;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5;
+    @apply bg-gold text-white font-sans text-[11px] font-medium tracking-[0.22em] uppercase;
+    @apply transition-all duration-300 ease-luxury hover:bg-gold-dark hover:shadow-gold;
+    min-height: 44px;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5;
+    @apply bg-transparent border border-charcoal/25 text-charcoal font-sans text-[11px] font-medium tracking-[0.22em] uppercase;
+    @apply transition-all duration-300 ease-luxury hover:border-gold hover:text-gold;
+    min-height: 44px;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 font-sans text-[11px] font-medium tracking-[0.22em] uppercase;
+    @apply text-charcoal/60 hover:text-gold transition-colors duration-300;
+  }
+
+  /* Cards */
+  .card-wine {
+    @apply bg-cream overflow-hidden transition-all duration-500;
+    @apply shadow-elegant hover:shadow-elegant-lg;
+  }
+
+  /* Gold Divider */
+  .gold-divider {
+    @apply flex items-center justify-center gap-4 my-8;
+  }
+  .gold-divider::before,
+  .gold-divider::after {
+    content: '';
+    @apply flex-1 h-px bg-gold/30;
+    max-width: 120px;
+  }
+  .gold-divider-icon {
+    @apply text-gold text-sm;
+  }
+
+  /* Form fields */
+  .form-input {
+    @apply w-full px-4 py-3.5 bg-ivory border border-champagne text-charcoal font-sans text-sm;
+    @apply focus:outline-none focus:border-gold/60 transition-colors duration-200;
+    min-height: 44px;
+  }
+  .form-label {
+    @apply font-sans text-[11px] font-medium tracking-[0.15em] uppercase text-charcoal/60 block mb-2;
+  }
+
+  /* Navbar */
+  .nav-link {
+    @apply font-sans text-[11px] font-medium tracking-[0.2em] uppercase;
+    @apply text-cream/80 hover:text-gold transition-colors duration-300;
+  }
+  .nav-link-active {
+    @apply text-gold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .tracking-widest-lg {
+    letter-spacing: 0.15em;
+  }
+  .tracking-widest-xl {
+    letter-spacing: 0.22em;
+  }
+  .ease-luxury {
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF6EE;
+}
+::-webkit-scrollbar-thumb {
+  background: #B8963E;
+  border-radius: 3px;
+}
+
+/* Custom cursor */
+*, *::before, *::after {
+  cursor: none !important;
+}
+@media (hover: none) {
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+}
