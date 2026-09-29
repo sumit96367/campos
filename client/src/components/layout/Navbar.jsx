@@ -6,7 +6,14 @@ import useCartStore from '../../store/cartStore'
 
 const navLinks = [
   { label: 'Wines', to: '/wines' },
-  { label: 'Wine Club', to: '/wine-club' },
+  { 
+    label: 'Wine Club', 
+    to: '/wine-club',
+    children: [
+      { label: 'Wine Club', to: '/wine-club' },
+      { label: 'Olive Oil Club', to: '/olive-oil-club' },
+    ]
+  },
   { label: 'Visit', to: '/visit' },
   { 
     label: 'Events', 
@@ -16,7 +23,17 @@ const navLinks = [
       { label: 'Photo Gallery', to: '/gallery' },
     ]
   },
-  { label: 'Our Story', to: '/about' },
+  { 
+    label: 'About', 
+    to: '/about',
+    children: [
+      { label: 'About Us', to: '/about' },
+      { label: 'Meet the Winemaker', to: '/about#winemaker' },
+      { label: 'Blog', to: '/blog' },
+      { label: 'FAQ', to: '/faq' },
+      { label: 'Donation Requests', to: '/donation' },
+    ]
+  },
   { label: 'Amy G', to: '/amy-g' },
   { label: 'Vendor Interest', to: '/vendor-interest' },
 ]
@@ -24,7 +41,7 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [eventsHovered, setEventsHovered] = useState(false)
+  const [hoveredNav, setHoveredNav] = useState(null)
   const [hidden, setHidden] = useState(false)
   const { user, isAuthenticated } = useAuthStore()
   const { items, isOpen, toggleCart } = useCartStore()
@@ -40,13 +57,21 @@ const Navbar = () => {
 
   useEffect(() => { setMobileOpen(false) }, [location.pathname])
 
+  const needsSolidBg = [
+    '/cart', '/checkout', '/login', '/register', '/account', 
+    '/privacy-policy', '/terms', '/shipping-returns', '/order-confirmation', '/olive-oil-club',
+    '/donation', '/faq', '/blog', '/about-us'
+  ].includes(location.pathname) || location.pathname.startsWith('/wines/') || location.pathname.startsWith('/wine-club')
+
+  const showSolidBg = isScrolled || mobileOpen || needsSolidBg
+
   return (
     <>
       <motion.nav
         animate={{ y: hidden ? '-100%' : 0 }}
         transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 ${
-          isScrolled || mobileOpen ? 'bg-charcoal/98 backdrop-blur-sm shadow-lg' : 'bg-transparent'
+          showSolidBg ? 'bg-charcoal/98 backdrop-blur-sm shadow-lg' : 'bg-transparent'
         }`}
       >
         <div className="section-container h-20 flex items-center justify-between">
@@ -86,28 +111,28 @@ const Navbar = () => {
                   <div 
                     key={link.to} 
                     className="relative group py-6"
-                    onMouseEnter={() => setEventsHovered(true)}
-                    onMouseLeave={() => setEventsHovered(false)}
+                    onMouseEnter={() => setHoveredNav(link.to)}
+                    onMouseLeave={() => setHoveredNav(null)}
                   >
                     <NavLink
                       to={link.to}
                       className={({ isActive }) => `nav-link inline-flex items-center gap-1.5 ${isActive ? 'nav-link-active' : ''}`}
                     >
                       <span>{link.label}</span>
-                      <svg className={`w-3 h-3 transition-transform duration-300 ${eventsHovered ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className={`w-3 h-3 transition-transform duration-300 ${hoveredNav === link.to ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                       </svg>
                     </NavLink>
 
                     {/* Dropdown Menu */}
                     <AnimatePresence>
-                      {eventsHovered && (
+                      {hoveredNav === link.to && (
                         <motion.div
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 w-48 bg-charcoal/95 backdrop-blur-md shadow-2xl rounded-lg border border-gold/20 py-2 overflow-hidden z-50"
+                          className="absolute top-full left-1/2 -translate-x-1/2 min-w-[14rem] w-max max-w-xs whitespace-nowrap bg-charcoal/95 backdrop-blur-md shadow-2xl rounded-lg border border-gold/20 py-2 overflow-hidden z-50"
                         >
                           {link.children.map((child) => (
                             <Link

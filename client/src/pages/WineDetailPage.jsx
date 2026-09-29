@@ -73,9 +73,9 @@ const WineDetailPage = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Image */}
-            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="aspect-[3/4] bg-champagne flex items-center justify-center overflow-hidden">
+            <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="aspect-[3/4] bg-cream/70 border border-charcoal/5 rounded-lg flex items-center justify-center p-8 overflow-hidden shadow-sm">
               {image ? (
-                <img src={image} alt={wine.name} className="w-full h-full object-cover" />
+                <img src={image} alt={wine.name} className="w-full h-full object-contain drop-shadow-xl hover:scale-105 transition-transform duration-500" />
               ) : (
                 <span className="text-8xl">🍷</span>
               )}
@@ -83,7 +83,21 @@ const WineDetailPage = () => {
 
             {/* Details */}
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="flex flex-col justify-center">
-              <p className="eyebrow text-gold mb-4">{wine.category}</p>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="eyebrow text-gold">{wine.category}</span>
+                {wine.varietal && (
+                  <>
+                    <span className="text-charcoal/30">·</span>
+                    <span className="text-xs font-sans text-charcoal/60 uppercase tracking-widest">{wine.varietal}</span>
+                  </>
+                )}
+                {wine.region && (
+                  <>
+                    <span className="text-charcoal/30">·</span>
+                    <span className="text-xs font-sans text-charcoal/50">{wine.region}</span>
+                  </>
+                )}
+              </div>
               <h1 className="heading-section text-charcoal mb-2">{wine.name}</h1>
               {wine.vintage && <p className="font-sans text-sm text-charcoal/50 mb-6">Vintage {wine.vintage}</p>}
 
@@ -92,16 +106,49 @@ const WineDetailPage = () => {
                 <span className="text-gold text-sm">◆</span>
               </div>
 
-              {wine.description && <p className="body-elegant mb-8">{wine.description}</p>}
+              {wine.description && (
+                <div className="prose prose-stone font-sans text-charcoal/75 text-sm md:text-base leading-relaxed mb-8 whitespace-pre-line">
+                  {wine.description}
+                </div>
+              )}
 
               {/* Tasting Notes */}
               {wine.tastingNotes && (
-                <div className="bg-cream p-6 mb-8 space-y-3">
-                  <h2 className="eyebrow text-charcoal mb-4">Tasting Notes</h2>
-                  {wine.tastingNotes.nose && <div><span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase">Nose</span><p className="font-sans text-sm text-charcoal/70 mt-1">{wine.tastingNotes.nose}</p></div>}
-                  {wine.tastingNotes.palate && <div><span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase">Palate</span><p className="font-sans text-sm text-charcoal/70 mt-1">{wine.tastingNotes.palate}</p></div>}
-                  {wine.tastingNotes.finish && <div><span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase">Finish</span><p className="font-sans text-sm text-charcoal/70 mt-1">{wine.tastingNotes.finish}</p></div>}
-                  {wine.tastingNotes.pairings && <div><span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase">Food Pairings</span><p className="font-sans text-sm text-charcoal/70 mt-1">{wine.tastingNotes.pairings}</p></div>}
+                <div className="bg-cream rounded-xl border border-charcoal/5 p-6 mb-8 space-y-4">
+                  <h2 className="eyebrow text-charcoal tracking-widest mb-2 font-semibold">Tasting Profile</h2>
+                  {(wine.tastingNotes.aroma || wine.tastingNotes.nose) && (
+                    <div>
+                      <span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase font-semibold">Aroma</span>
+                      <p className="font-sans text-sm text-charcoal/80 mt-0.5">{wine.tastingNotes.aroma || wine.tastingNotes.nose}</p>
+                    </div>
+                  )}
+                  {wine.tastingNotes.palate && (
+                    <div>
+                      <span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase font-semibold">Palate</span>
+                      <p className="font-sans text-sm text-charcoal/80 mt-0.5">{wine.tastingNotes.palate}</p>
+                    </div>
+                  )}
+                  {wine.tastingNotes.finish && (
+                    <div>
+                      <span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase font-semibold">Finish</span>
+                      <p className="font-sans text-sm text-charcoal/80 mt-0.5">{wine.tastingNotes.finish}</p>
+                    </div>
+                  )}
+                  {(wine.foodPairings || wine.tastingNotes.pairings) && (
+                    <div>
+                      <span className="font-sans text-xs text-charcoal/50 tracking-wider uppercase font-semibold">Suggested Pairings</span>
+                      <div className="flex flex-wrap gap-2 mt-1.5">
+                        {Array.isArray(wine.foodPairings)
+                          ? wine.foodPairings.map((p, i) => (
+                              <span key={i} className="text-xs bg-ivory px-3 py-1 rounded-full border border-charcoal/10 text-charcoal/70">
+                                {p}
+                              </span>
+                            ))
+                          : <p className="font-sans text-sm text-charcoal/80">{wine.tastingNotes.pairings}</p>
+                        }
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

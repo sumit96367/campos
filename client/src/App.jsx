@@ -12,6 +12,7 @@ import AboutPage from './pages/AboutPage'
 import WinesPage from './pages/WinesPage'
 import WineDetailPage from './pages/WineDetailPage'
 import WineClubPage from './pages/WineClubPage'
+import OliveOilClubPage from './pages/OliveOilClubPage'
 import VisitPage from './pages/VisitPage'
 import EventsPage from './pages/EventsPage'
 import ContactPage from './pages/ContactPage'
@@ -28,6 +29,9 @@ import NotFoundPage from './pages/NotFoundPage'
 import AmyGPage from './pages/AmyGPage'
 import VendorInterestPage from './pages/VendorInterestPage'
 import GalleryPage from './pages/GalleryPage'
+import BlogPage from './pages/BlogPage'
+import FAQPage from './pages/FAQPage'
+import DonationPage from './pages/DonationPage'
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -60,9 +64,14 @@ const App = () => {
           <Route element={<RootLayout />}>
             <Route index element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="about-us" element={<AboutPage />} />
+            <Route path="blog" element={<BlogPage />} />
+            <Route path="faq" element={<FAQPage />} />
+            <Route path="donation" element={<DonationPage />} />
             <Route path="wines" element={<WinesPage />} />
             <Route path="wines/:slug" element={<WineDetailPage />} />
             <Route path="wine-club" element={<WineClubPage />} />
+            <Route path="olive-oil-club" element={<OliveOilClubPage />} />
             <Route path="visit" element={<VisitPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="gallery" element={<GalleryPage />} />

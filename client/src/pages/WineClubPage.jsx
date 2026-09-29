@@ -241,33 +241,55 @@ const WineClubPage = () => {
       {/* Olive Oil Club */}
       <section className="section-py bg-champagne" aria-labelledby="oil-club-heading">
         <div className="section-container">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            {/* Text */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               <span className="eyebrow block mb-4">Also Available</span>
               <h2 id="oil-club-heading" className="heading-section text-charcoal mb-4">Olive Oil Club</h2>
-              <div className="w-12 h-px bg-gold mx-auto mb-6" />
-              <p className="body-elegant">
-                Love great olive oil? Join our quarterly Olive Oil Club and receive premium selections delivered directly to you.
+              <div className="w-12 h-px bg-gold mb-6" />
+              <p className="body-elegant mb-6">
+                Love great olive oil? Join our quarterly Olive Oil Club and receive premium, locally sourced
+                selections delivered directly to you — from classic EVOO to flavored oils and 20-year barrel
+                aged balsamic vinegar.
               </p>
-            </div>
+              <p className="text-sm font-sans text-charcoal/60 mb-8">
+                All members receive <strong>20% off</strong> every olive oil and balsamic purchase, in-store and online.
+              </p>
+              <Link to="/olive-oil-club" className="btn-primary inline-flex">
+                Explore Olive Oil Club →
+              </Link>
+            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Club options preview */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            >
               {[
-                { name: 'Flavor Club', desc: 'One 500ML bottle of savory, locally grown flavor selections, quarterly' },
-                { name: 'EVOO Club', desc: 'One 500ML bottle of locally grown Extra Virgin Olive Oil, quarterly' },
-                { name: 'Flavor Pack', desc: 'Three 500ML bottles of savory flavored olive oils, quarterly' },
-                { name: 'Balsamic Club', desc: 'One 500ML bottle of 20-Year Barrel Aged Balsamic Vinegar, quarterly' },
-              ].map(({ name, desc }) => (
-                <div key={name} className="bg-ivory rounded-lg p-6">
-                  <h3 className="font-serif text-lg text-charcoal mb-2">{name}</h3>
-                  <p className="text-sm font-sans text-charcoal/70 leading-relaxed">{desc}</p>
-                  <p className="text-xs text-gold font-sans tracking-wider mt-3">20% off all olive oil purchases for members</p>
+                { icon: '🫒', name: 'Flavor Club', desc: '500ML rotating seasonal flavors, quarterly' },
+                { icon: '🌿', name: 'EVOO Club', desc: '500ML Extra Virgin Olive Oil, quarterly' },
+                { icon: '🫙', name: 'Flavor Pack', desc: 'Three 500ML flavored oils, quarterly' },
+                { icon: '🍶', name: 'Balsamic Club', desc: '500ML 20-Year Barrel Aged Balsamic, quarterly' },
+              ].map(({ icon, name, desc }) => (
+                <div key={name} className="bg-ivory rounded-xl p-5 hover:shadow-elegant transition-shadow duration-300">
+                  <span className="text-2xl mb-3 block" aria-hidden="true">{icon}</span>
+                  <h3 className="font-serif text-base text-charcoal mb-1">{name}</h3>
+                  <p className="text-xs font-sans text-charcoal/60 leading-relaxed">{desc}</p>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
+
 
       {/* FAQ / Policies */}
       <section className="section-py bg-ivory" aria-labelledby="faq-heading">

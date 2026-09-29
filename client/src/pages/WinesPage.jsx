@@ -8,7 +8,7 @@ import api from '../services/api'
 import { FiFilter, FiX } from 'react-icons/fi'
 import { mockWines } from '../data/mockWines'
 
-const CATEGORIES = ['All', 'Red Wine', 'White Wine', 'Rosé', 'Dessert Wine']
+const CATEGORIES = ['All', 'Red Wine', 'White Wine', 'Rosé', 'Sparkling Wine', 'Dessert Wine']
 
 const WinesPage = () => {
   const [wines, setWines] = useState([])
@@ -21,7 +21,11 @@ const WinesPage = () => {
     const fetchWines = async () => {
       try {
         const { data } = await api.get('/products')
-        setWines(data.products || [])
+        if (data.products && data.products.length > 0) {
+          setWines(data.products)
+        } else {
+          setWines(mockWines)
+        }
       } catch (err) {
         console.warn('Backend unavailable, falling back to mock data.', err)
         setWines(mockWines)
@@ -34,7 +38,16 @@ const WinesPage = () => {
 
   const filtered = activeCategory === 'All'
     ? wines
-    : wines.filter(w => w.category === activeCategory)
+    : wines.filter(w => {
+        if (!w.category) return false
+        const cat = w.category.toLowerCase().replace(/['’]/g, '')
+        if (activeCategory === 'Red Wine') return cat === 'red wine' || cat === 'red'
+        if (activeCategory === 'White Wine') return cat === 'white wine' || cat === 'white'
+        if (activeCategory === 'Rosé') return cat === 'rosé' || cat === 'rose'
+        if (activeCategory === 'Sparkling Wine') return cat === 'sparkling wine' || cat === 'sparkling'
+        if (activeCategory === 'Dessert Wine') return cat === 'dessert wine' || cat === 'dessert'
+        return w.category === activeCategory
+      })
 
   return (
     <PageTransition>
